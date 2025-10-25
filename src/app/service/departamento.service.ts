@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class DepartamentoService {
-  private readonly URL_API = `cl/api/departamentos`;
+  private readonly URL_API = `${environment.apiBaseUrl}/api/departamentos`;
 
   constructor(private http: HttpClient) {}
 
