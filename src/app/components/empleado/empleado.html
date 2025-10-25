@@ -1,0 +1,86 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h1>Registro de Nuevo Empleado</h1>
+        <form #empleadoForm="ngForm" (ngSubmit)="addEmpleado(empleadoForm)">
+          <div class="form-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Ingrese su nombre"
+              [(ngModel)]="empleadoService.selectedEmpleado.nombre"
+              name="nombre"
+              required
+            />
+          </div>
+
+          <div class="form-group mb-3">
+            <!-- Reemplazado campo libre 'cargo' por select de departamentos -->
+            <select
+              class="form-control"
+              [(ngModel)]="empleadoService.selectedEmpleado.departamento"
+              name="departamento"
+              required
+            >
+              <option value="" disabled selected>Seleccione un departamento</option>
+              <option *ngFor="let d of departamentos" [value]="d._id">{{ d.nombre }}</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Ingrese su departamento"
+              [(ngModel)]="empleadoService.selectedEmpleado.departamento"
+              name="departamento"
+              required
+            />
+          </div>
+
+          <div class="form-group mb-3">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Ingrese su sueldo"
+              [(ngModel)]="empleadoService.selectedEmpleado.sueldo"
+              name="sueldo"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary me-2">{{ isEditing ? 'Actualizar' : 'Crear' }}</button>
+          <button *ngIf="isEditing" type="button" class="btn btn-secondary me-2" (click)="cancelEdit(empleadoForm)">Cancelar</button>
+          <button *ngIf="!isEditing" type="button" class="btn btn-secondary" (click)="empleadoForm.resetForm()">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de empleados -->
+  <div class="col-md-8">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Cargo</th>
+          <th>Departamento</th>
+          <th>Operaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let empleado of empleadoService.empleados">
+          <td>{{ empleado.nombre }}</td>
+          <!-- mostramos sueldo -->
+          <td>{{ empleado.sueldo }}</td>
+          <td>{{ getDepartamentoNombre(empleado.departamento) }}</td>
+          <td>
+            <button class="btn btn-secondary me-2" (click)="startEdit(empleado)">Actualizar</button>
+            <button class="btn btn-danger" (click)="removeEmpleado(empleado._id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
